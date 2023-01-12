@@ -6,6 +6,9 @@ use Predis\Client;
 use Symfony\Component\Dotenv\Dotenv;
 use App\Modules\Cache\CacheInterface;
 
+/**
+ * Редис кэш
+ */
 class RedisCache implements CacheInterface
 {
     private Client $client;
@@ -16,11 +19,11 @@ class RedisCache implements CacheInterface
     public function connection(): RedisCache
     {
         $dotenv = new Dotenv();
-        $dotenv->load(__DIR__ . '/../../../http/.env');
+        $dotenv->load(__DIR__ . '/../../../http/.redis.env');
         $this->client = new Client([
-            'scheme' => $_ENV['REDIS_PROTOCOL'] ?? 'tcp',
-            'host' => $_ENV['REDIS_HOST'],
-            'port' => $_ENV['REDIS_PORT'],
+            'scheme' => $_ENV['PROTOCOL'] ?? 'tcp',
+            'host' => $_ENV['HOST'],
+            'port' => $_ENV['PORT'],
         ]);
         return $this;
     }
@@ -41,7 +44,7 @@ class RedisCache implements CacheInterface
      */
     public function get(string $key): array|string|null
     {
-        $response =  $this->client->get($key);
+        $response = $this->client->get($key);
 
         if (json_decode($response)) {
             $response = json_decode($response, true);
