@@ -14,6 +14,19 @@ class MainController extends AbstractController
 {
     public function index(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
+        global $APPLICATION;
+
+        /**
+         * @var const furniture_products_s1 - все константы инициализируются в миддлеворе
+         * по принципу: код инфоблока = Id инфоблока
+         *
+         * Так же компонент можно вызвать в любом index.php
+         */
+        $APPLICATION->IncludeComponent(
+            "bitrix_slim:products_list",
+            ".default",
+            ['IBLOCK_ID' => furniture_products_s1]
+        );
         $routeParser = \Slim\Routing\RouteContext::fromRequest($request)->getRouteParser();
         dump($routeParser->urlFor('page404', ['slug' => 'gg'], ['slug' => 'gg']));
 //        $redis = (new RedisCache);
