@@ -1,4 +1,24 @@
 <?php
+
+use App\Tables\IBlockTable;
+
+require_once '/var/www/bitrix/html/vendor/autoload.php';
+
+$iblockAr = IBlockTable::GetList([
+    'select' => ['*'],
+    'filter' => [
+        'ACTIVE' => 'Y',
+        'LID' => SITE_ID,
+    ],
+    'cache' => ['ttl' => 3600],
+]);
+
+while ($iblockRes = $iblockAr->fetch()) {
+    if ($iblockRes['CODE'] != '') {
+        define($iblockRes['CODE'], $iblockRes['ID']);
+    }
+}
+
 IncludeModuleLangFile(__FILE__);
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdateHandler");
 

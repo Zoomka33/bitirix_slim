@@ -3,7 +3,8 @@
         "slim/slim": "4.*",
         "slim/psr7": "^1.6",
         "predis/predis": "^2.0",
-        "symfony/dotenv": "^6.1"
+        "symfony/dotenv": "^6.1",
+        "jenssegers/blade": "*"
     },
     "autoload": {
         "psr-4": {
